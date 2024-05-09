@@ -1,11 +1,21 @@
-import { NavLink } from "react-router-dom";
+
+
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContex } from "../../Provider/AuthProvider";
+
+
 
 
 const Navbar = () => {
+  const{user} = useContext(AuthContex)
+  console.log(user);
+  const {logout } = useContext(AuthContex)
   const NavItem = <>
       <li><NavLink to={'/'}>Home</NavLink></li>
       <li><NavLink to={'/room'}>Room</NavLink></li>
       <li><NavLink to={'/mybooking'}>My Booking</NavLink></li>
+      <li><NavLink to={'/register'}>regi</NavLink></li>
     
   </>
   return (
@@ -27,10 +37,32 @@ const Navbar = () => {
             {NavItem}
           </ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
-        </div>
+        <div className="navbar-end space-x-3">
+                         {user ? (
+                              <div className="dropdown dropdown-end flex justify-center items-center gap-2">
+                                   <label tabIndex={0} className="btn btn-circle   avatar hover:ring-2 hover:ring-red-500">
+                                        <div className="w-10 h-10 mt-1  mb-2 rounded-3xl ">
+                                             <img src={user?.photoURL || "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"} title={(user?.displayName || user.email)} alt="User avater" />
+                                        </div>
+                                        {/* <p className="text-black z-20 -mt-4">{user?.email || user.email || ""}</p> */}
+                                   </label>
+                                   <button onClick={logout} className="btn btn-ghost hover  text-black text-md md:text-xl md:pb-2 md:px-4 py-1 px-2 rounded-lg bg-[#D2B48C] ">Logout</button>
+                              </div>
+                         )
+                              : (
+                                   <div className="flex space-x-5">
+                                        <Link to='/register'>
+                                             <button className="btn btn-ghost text-black text-lg md:text-xl  hover md:pb-2 md:px-4 py-1 px-2 rounded-lg bg-[#D2B48C] bg-opacity-10">Register</button>
+                                        </Link>
+                                        <Link to='/login'>
+                                             <button className="btn btn-ghost text-black text-lg md:text-xl  hover md:pb-2 md:px-4 py-1 px-2 rounded-lg bg-[#D2B48C] bg-opacity-10">Login</button>
+                                        </Link>
+
+                                   </div>
+                              )}
+                    </div>
       </div>
+    
     </div>
   );
 };
