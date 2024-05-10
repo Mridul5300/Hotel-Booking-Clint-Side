@@ -7,6 +7,7 @@ import ErrorPage from "../Pages/Error/ErrorPage";
 import LogIn from "../Pages/Log In/LogIn";
 import Register from "../Pages/Register/Register";
 import PrivetRoute from "./PrivetRoute/PrivetRoute";
+import RoomDetails from "../Pages/Room/RoomDetails";
 
    const router = createBrowserRouter([
      {
@@ -20,7 +21,8 @@ import PrivetRoute from "./PrivetRoute/PrivetRoute";
           },
           {
                path:'room',
-               element:<Room></Room>
+               element:<Room></Room>,
+               loader: () => fetch ('http://localhost:5000/user')
           },
           {
                path:'mybooking',
@@ -33,6 +35,11 @@ import PrivetRoute from "./PrivetRoute/PrivetRoute";
           {
                path:"register",
                element:<Register></Register>
+          },
+          {
+               path:'/roomdetails/:id',
+               element:<RoomDetails></RoomDetails>,
+               loader:({params}) => fetch(`http://localhost:5000/user/${params.id}`)                            
           }
      
        ]
