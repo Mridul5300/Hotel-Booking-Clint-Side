@@ -1,13 +1,12 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../FIreBase/firebase config";
-// import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth/";
 import { GoogleAuthProvider } from "firebase/auth";
+import PropTypes from 'prop-types';
 
+export const AuthContex = createContext(null);
+const googleProvider = new GoogleAuthProvider();
 
-export const AuthContex = createContext(null)
-const googleProvider = new GoogleAuthProvider()
-// const gitHubProvider=new GithubAuthProvider()
 const AuthProvider = ({children}) => {
      const [reload, setReload]=useState(false)
     const [user, setUser]= useState(null)
@@ -24,26 +23,12 @@ const AuthProvider = ({children}) => {
      const signInUser = (email, password) => {
           setLoading(true)
           return signInWithEmailAndPassword(auth, email, password)
-     }
-
+     };
 
    const  googleLogin = () => {
      setLoading(true)
      return signInWithPopup(auth,googleProvider)
-   }
-
-//    const gitHubLogin = () => {
-//      setLoading(true)
-//      return signInWithPopup(auth, gitHubProvider)
-//    }
-// Update Profile
-// const upDateUser = (name,image) => {
-//      return updateProfile(auth.currentUser, {
-//           displayName: name, photoURL: image
-//         })     
-// }
-
-// logout
+   };
 const logout = () => {
      setLoading(true)
      setUser(null)
@@ -60,7 +45,7 @@ const logout = () => {
                setLoading(false)
              });
           
-     },[reload])
+     },[reload]);
 
 
      const allValues ={
@@ -69,11 +54,11 @@ const logout = () => {
           creatUser,
           signInUser,
           googleLogin,
-          // gitHubLogin,
+     
           logout,
           setReload
           
-     }
+     };
      return (
           <AuthContex.Provider  value={allValues}>
                {children}
@@ -81,5 +66,8 @@ const logout = () => {
      );
 };
 
+AuthProvider.propTypes = {
+     children: PropTypes.object
+   };
 
 export default AuthProvider;

@@ -6,6 +6,7 @@ import MyBooking from "../Pages/My Booking/MyBooking";
 import ErrorPage from "../Pages/Error/ErrorPage";
 import LogIn from "../Pages/Log In/LogIn";
 import Register from "../Pages/Register/Register";
+import PrivetRoute from "./PrivetRoute/PrivetRoute";
 
    const router = createBrowserRouter([
      {
@@ -23,7 +24,7 @@ import Register from "../Pages/Register/Register";
           },
           {
                path:'mybooking',
-               element:<MyBooking></MyBooking>
+               element:<PrivetRoute><MyBooking></MyBooking></PrivetRoute>
           },
           {
                path:'login',
