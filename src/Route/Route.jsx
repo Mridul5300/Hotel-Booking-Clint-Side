@@ -39,7 +39,7 @@ import RoomDetails from "../Pages/Room/RoomDetails";
           {
                path:'/roomdetails/:id',
                element:<RoomDetails></RoomDetails>,
-               loader:({params}) => fetch(`http://localhost:5000/user/${params.id}`)                            
+               loader:({params}) => fetch(`http://localhost:5000/roomdetails/${params.id}`)                            
           }
      
        ]
