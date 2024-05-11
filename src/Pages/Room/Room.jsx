@@ -4,7 +4,7 @@ import RoomCard from "./RoomCard";
 
 
 const Room = () => {
-     // const [roomdetail,setRoomDetail] = useState([]);
+     // const [r,setRoomDetail] = useState([]);
 
      // useEffect(() => {
      //      fetch('http://localhost:5000/user')
