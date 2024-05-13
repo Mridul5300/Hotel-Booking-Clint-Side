@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { AuthContex } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const RoomDetails = () => {
      const { user } = useContext(AuthContex)
@@ -18,15 +19,34 @@ const RoomDetails = () => {
                const date = form.date.value;
                const email = user?.email;
                const booking ={
-                    name,
                     email,
-                    date,
+                    date
                } 
+               fetch('http://localhost:5000/bookings', {
+                    method: 'POST',
+                    headers:{
+                         'content-type' : 'application/json'
+                    },
+                    body: JSON.stringify(booking)
+               })
+               .then(res => res.json())
+               .then(data => {
+                    console.log(data);
+                    if(data.insertedId){
+                         Swal.fire({
+                              title: 'Success!',
+                              text: 'User Added Succesfully',
+                              icon: 'success',
+                              confirmButtonText: 'OK'
+                            })
+                    }
+               })
+               console.log(booking);
           }
      
      useEffect(() => {
           const reviewData = async () => {
-               const { data } = await axios.get(`http://localhost:5173/roomdetail/id/${reviews}`)
+               const { data } = await axios.get(`http://localhost:5173/roomdetail/reviews/${_id}`)
                console.log(data);
 
                // for review
