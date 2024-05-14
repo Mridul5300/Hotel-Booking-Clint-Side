@@ -4,6 +4,7 @@ import { AuthContex } from "../../Provider/AuthProvider";
 import { useForm } from "react-hook-form";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 
 
@@ -61,6 +62,9 @@ const Register = () => {
      }, [registrationSuccess, navigate]);
      return (
           <div>
+              <Helmet>
+               <title>Sign In</title>
+                </Helmet>
                <div className='bg-[#D2B48C] bg-opacity-15 p-6 '>
     <h1 className="font-bold text-5xl text-center">Register Now</h1>
     <div className='flex flex-col sm:flex-row sm:mr-3 mt-3'>

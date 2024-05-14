@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import Review from "./ReviewSection/Review";
+// import Review from "./ReviewSection/Review";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
@@ -9,16 +9,21 @@ import Swal from "sweetalert2";
 const RoomDetails = () => {
      const { user } = useContext(AuthContex)
      const roomDetail = useLoaderData()
-     const [reviews, setReview] = useState([])
-     console.log(roomDetail);
-     const { _id, description, room_size, room_images,special_offers,price_per_night } = roomDetail;
+     // const [reviews, setReview] = useState([])
+     // console.log(roomDetail);
+     const { _id, description, room_size, room_images,special_offers,price_per_night,
+          reviews } = roomDetail;
+          console.log(roomDetail);
 
           const handlebooking = event => {
                event.preventDefault();
                const form = event.target;
+               const name = user?.displayName
                const date = form.date.value;
                const email = user?.email;
                const booking ={
+                    name,
+                    room_images,
                     email,
                     date
                } 
@@ -44,21 +49,36 @@ const RoomDetails = () => {
                console.log(booking);
           }
      
-     useEffect(() => {
-          const reviewData = async () => {
-               const { data } = await axios.get(`http://localhost:5173/roomdetail/reviews/${_id}`)
-               console.log(data);
+     // useEffect(() => {
+     //      const reviewData = async () => {
+     //           const {data} = await axios.get(`http://localhost:5000/roomreview/reviews/${_id}`)
+     //           console.log(data);
 
-               // for review
-               setReview(data.reviews)
-          }
-          reviewData()
+     //           // for review
+     //           setReview(data.reviews)
+     //      }
+     //      reviewData()
 
-     }, [_id])
+     // }, [_id])
+
+     const handleReview = ( (event) => {
+          event.preventDefault()
+
+          const usereview = event.target.review.value;
+          console.log(usereview);
+          axios
+          .patch(`http://localhost:5000/roomreview/reviews/${_id}`,{
+               reviews : usereview,
+          })
+          .then((result) =>{
+               console.log(result.data);
+          })
+               
+     })
      
      return (
           <div>
-          <section className="bg-gradient-to-r from-black to-indigo-400  text-white py-20">
+          <section className="w-[1190px] ml-5 mt-2 bg-gradient-to-r from-black to-indigo-400  text-white py-20">
           <div className="container mx-auto">
                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div>
@@ -70,8 +90,8 @@ const RoomDetails = () => {
                          <p className="text-lg mb-6">{special_offers}</p>
 
                          <div className="mb-8">
-                              <h3 className="text-2xl font-bold mb-4">Reviews</h3>
-                              {reviews && reviews.length > 0 ? (
+                              <h3 className="text-2xl font-bold mb-4">Reviews{reviews}</h3>
+                              {/* {reviews && reviews.length > 0 ? (
                                    reviews.map(review => (
                                         <div key={review._id} className="mb-4">
                                              <p className="text-lg">{review.comment}</p>
@@ -80,7 +100,7 @@ const RoomDetails = () => {
                                    ))
                               ) : (
                                    <p>No reviews for this room yet.</p>
-                              )}
+                              )} */}
                          </div>
 
                     <div>
@@ -100,6 +120,12 @@ const RoomDetails = () => {
                                    </div>
                                    <form onSubmit={handlebooking}>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="form-control">
+                                             <label className="label">
+                                                  <span className="label-text text-gray-500">Name</span>
+                                             </label>
+                                             <input type="text" name="name" defaultValue={user?.displayName} className="input input-bordered text-gray-500" required />
+                                        </div>
                                         <div className="form-control">
                                              <label className="label">
                                                   <span className="label-text text-gray-500">Email</span>
@@ -126,7 +152,16 @@ const RoomDetails = () => {
           </div>
           </section>
           <div>
-               <Review></Review>
+          <div>
+               <div className="ml-8 mt-3 py-5 bg-gray-400 p-3 w-[350px] h-[290px] mb-5">
+               <form onSubmit={handleReview}>
+               <div>
+               <textarea className="textarea textarea-success w-full" name="review" placeholder="Comments"></textarea>
+               </div>
+               <button className="btn w-full mt-2">Review</button>
+               </form>
+               </div>
+          </div>
           </div>
           </div>
      );

@@ -1,56 +1,94 @@
+import { useContext, useEffect, useState } from "react";
+import { AuthContex } from "../../Provider/AuthProvider";
+import Table from "./Table";
+import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 
 const MyBooking = () => {
+
+     const {user} = useContext(AuthContex);
+     const [bookings, setBookings] = useState([]);
+     const url = `http://localhost:5000/bookings?email=${user?.email}`;
+     useEffect( () => {
+          fetch(url)
+          .then(res => res.json())
+          .then(data => setBookings(data))
+     }, []);
+
+     const handleCancel = id => {
+          console.log(id);
+          Swal.fire({
+               title: "Are you sure?",
+               text: "You want to Cancel this Booking Item !",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes, delete it!"
+             }).then((result) => {
+               if (result.isConfirmed) {
+               fetch(`http://localhost:5000/bookings/${id}`, {
+                    method:'DELETE'
+               })
+               .then(res => res.json())
+               .then(data => {
+                    console.log(data);
+                    if(data.deletedCount > 0){
+                     Swal.fire({
+                   title: "Cancel!",
+                   text: "Your Bookig Cancel.",
+                   icon: "success"
+                 });
+
+                 const remaining = bookings.filter(booking => booking._id !== id);
+                 setBookings(remaining)
+                    }
+               });
+               }
+             });
+
+     };
+     
+     // const handleupdate = id => {
+     //      fetch(`http://localhost:5000/bookings/${id}`,)
+     //      .then(res=> res.json())
+     //      .then(data => {
+     //           console.log(data);
+     //           if(data.modifiedCount > 0) {
+     //                // updatestate
+     //           }
+     //      })
+     // }
+
      return (
           <div>
-               <h2 className="text-3xl">My Booking section</h2>
+                 <Helmet>
+               <title>My Booking</title>
+                </Helmet>
+               <h2 className="text-3xl text-center mt-2">My Booking section :{bookings.length} </h2>
                <div className="overflow-x-auto">
                     <table className="table">
                          {/* head */}
                          <thead>
                               <tr>
                                    <th>
-                                        <label>
-                                             <input type="checkbox" className="checkbox" />
-                                        </label>
+                                        
                                    </th>
-                                   <th>Name</th>
-                                   <th>Job</th>
-                                   <th>Favorite Color</th>
+                                   <th>Room Image</th>
+                                   <th>Email</th>
+                                   <th>Date</th>
                                    <th></th>
                               </tr>
                          </thead>
                          <tbody>
-                              {/* row 1 */}
-                              <tr>
-                                   <th>
-                                        <label>
-                                             <input type="checkbox" className="checkbox" />
-                                        </label>
-                                   </th>
-                                   <td>
-                                        <div className="flex items-center gap-3">
-                                             <div className="avatar">
-                                                  <div className="mask mask-squircle w-12 h-12">
-                                                       <img src="https://img.daisyui.com/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
-                                                  </div>
-                                             </div>
-                                             <div>
-                                                  <div className="font-bold">Hart Hagerty</div>
-                                                  <div className="text-sm opacity-50">United States</div>
-                                             </div>
-                                        </div>
-                                   </td>
-                                   <td>
-                                        Zemlak, Daniel and Leannon
-                                        <br />
-                                        <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
-                                   </td>
-                                   <td>Purple</td>
-                                   <th>
-                                        <button className="btn btn-ghost btn-xs">details</button>
-                                   </th>
-                              </tr>
+                         {
+                              bookings.map( booking => <Table
+                              key={booking._id}
+                              booking={booking}
+                              handleCancel={handleCancel}
+                              ></Table>)
+                         }
                               
                          </tbody>
                     </table>

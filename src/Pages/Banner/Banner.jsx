@@ -30,22 +30,22 @@ const Banner = () => {
             className="mySwiper"
           >
             <SwiperSlide>
-               <Slide></Slide>
+               <Slide image={"https://i.ibb.co/n7kQx9S/vita-vilcina-Kt-Oid0-FLjq-U-unsplash.jpg"}></Slide>
             </SwiperSlide>
             <SwiperSlide>
-               <Slide></Slide>
+               <Slide image={"https://i.ibb.co/Nnt00fb/humphrey-muleba-dyj7-RTs85-Fs-unsplash.jpg"}></Slide>
             </SwiperSlide>
             <SwiperSlide>
-               <Slide></Slide>
+               <Slide image={"https://i.ibb.co/QM5QqKg/katarzyna-urbanek-4q-Qsm-E4-Vd-A-unsplash.jpg"}></Slide>
             </SwiperSlide>
             <SwiperSlide>
-               <Slide></Slide>
+               <Slide image={"https://i.ibb.co/2kYFXyc/rakabtw-M3-Yu-HIpgm-SY-unsplash.jpg"}></Slide>
             </SwiperSlide>
             <SwiperSlide>
-               <Slide></Slide>
+               <Slide image={"https://i.ibb.co/TwDhg4m/roberto-nickson-MA82m-PIZe-GI-unsplash.jpg"}></Slide>
             </SwiperSlide>
             <SwiperSlide>
-               <Slide></Slide>
+               <Slide image={"https://i.ibb.co/gSZvfvK/sasha-kaunas-G6e-XUCi8-Jg-A-unsplash.jpg"}></Slide>
             </SwiperSlide>
           </Swiper>
         </div>

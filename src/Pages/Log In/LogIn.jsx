@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContex } from "../../Provider/AuthProvider";
+import { Helmet } from "react-helmet";
 
 
 
@@ -11,7 +12,7 @@ const { googleLogin } = useContext(AuthContex)
 const { signInUser } = useContext(AuthContex)
 const location = useLocation();
 const navigate = useNavigate();
-console.log("your location", location);
+// console.log("your location", location);
 const [showpassword, setShowpassword] =useState(false);
 const [error, setError] = useState(null);
 const {
@@ -59,6 +60,9 @@ const handleSociallogin = socialProvider => {
 };
      return (
           <div>
+              <Helmet>
+               <title>Login</title>
+                </Helmet>
                <div>
             <div className="flex items-center bg-[#D2B48C] bg-opacity-15 justify-center p-6 mb-5">
       <div className="w-full  max-w-md p-4 rounded-md  border sm:p-8 dark:bg-gray-50 dark:text-gray-800">
